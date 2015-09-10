@@ -3,7 +3,17 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".TipCalc">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".TipCalc"
+    >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:id="@+id/view"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="87dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,42 +21,39 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/bill_text_view"
         android:id="@+id/billTextView"
-        android:layout_alignBottom="@+id/billEditView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="93dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:gravity="center"
-        />
+        android:layout_above="@+id/percentEditView"
+        android:layout_alignRight="@+id/percentTextView"
+        android:layout_alignEnd="@+id/percentTextView"
+        android:layout_alignTop="@+id/billEditView" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/billEditView"
-        android:layout_marginLeft="93dp"
-        android:layout_marginStart="93dp"
         android:text="@string/bill_edit_view"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/view"
         android:layout_toRightOf="@+id/billTextView"
-        android:layout_alignParentTop="true"
-        android:inputType="numberDecimal" />
+        android:layout_toEndOf="@+id/billTextView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/tip_text_view"
-        android:id="@+id/tipTextView"
+        android:text="@string/percent_text_view"
+        android:id="@+id/percentTextView"
         android:gravity="center"
         android:layout_below="@+id/billTextView"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="93dp"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/tipEditView" />
+        android:layout_alignBottom="@+id/percentEditView" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tipEditView"
+        android:id="@+id/percentEditView"
         android:text="@string/tip_edit_view"
         android:layout_below="@+id/billEditView"
         android:layout_alignLeft="@+id/billEditView"
@@ -60,10 +67,10 @@
         android:text="@string/final_text_view"
         android:id="@+id/finalTextView"
         android:gravity="center"
+        android:layout_alignTop="@+id/finalEditView"
         android:layout_alignLeft="@+id/tipTextView"
         android:layout_alignStart="@+id/tipTextView"
-        android:layout_alignTop="@+id/finalEditView"
-        android:layout_alignBottom="@+id/finalEditView" />
+        android:layout_above="@+id/tipTextView" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -71,8 +78,31 @@
         android:id="@+id/finalEditView"
         android:text="@string/final_edit_view"
         android:inputType="numberDecimal"
-        android:layout_below="@+id/tipEditView"
-        android:layout_alignLeft="@+id/tipEditView"
-        android:layout_alignStart="@+id/tipEditView" />
+        android:layout_above="@+id/tipTextView"
+        android:layout_toRightOf="@+id/percentTextView"
+        android:layout_toEndOf="@+id/percentTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tip_text_view"
+        android:id="@+id/tipTextView"
+        android:gravity="center"
+        android:layout_alignTop="@+id/tipEditView"
+        android:layout_toLeftOf="@+id/tipEditView"
+        android:layout_toStartOf="@+id/tipEditView"
+        android:layout_alignBottom="@+id/tipEditView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tipEditView"
+        android:text="@string/tip_edit_view"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/percentTextView"
+        android:layout_alignLeft="@+id/finalEditView"
+        android:layout_alignStart="@+id/finalEditView"
+        android:layout_marginTop="117dp" />
 
 </RelativeLayout>
