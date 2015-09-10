@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TipCalc</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="bill_text_view">Bill</string>string>
+    <string name="bill_edit_view">0.0</string>string>
+
+    <string name="tip_text_view">Tip</string>string>
+    <string name="tip_edit_view">0.15</string>string>
+
+    <string name="final_text_view">Final Bill</string>string>
+    <string name="final_edit_view">0.15</string>string>
+
+    <string name="change_text_view"></string>string>
+
+</resources>
