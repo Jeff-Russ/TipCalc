@@ -3,9 +3,7 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".TipCalc" >
-
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".TipCalc">
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,7 +58,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/final_text_view"
-        android:id="@+id/finalEditView"
+        android:id="@+id/finalTextView"
         android:gravity="center"
         android:layout_alignLeft="@+id/tipTextView"
         android:layout_alignStart="@+id/tipTextView"
@@ -76,4 +74,5 @@
         android:layout_below="@+id/tipEditView"
         android:layout_alignLeft="@+id/tipEditView"
         android:layout_alignStart="@+id/tipEditView" />
+
 </RelativeLayout>
