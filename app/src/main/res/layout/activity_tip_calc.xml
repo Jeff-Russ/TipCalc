@@ -6,7 +6,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".CrazyTipCalc" >
+    tools:context=".TipCalc">
+
+    <!-- Overview of ID's for editable elements:
+
+    billEditText        tipEditText
+    changeTipSeekBar    finalBillEditText
+    friendlyCheckBox    specialsCheckBox    opinionCheckBox
+    availableBadRadio   availableOKRadio    availableGoodRadio
+    problemsSpinner
+    timeWaitingChronometer
+    startChronometerButton  pauseChronometerButton  resetChronometerButton
+
+    -->
 
     <requestFocus />
 
@@ -123,7 +135,8 @@
         android:layout_alignBottom="@+id/friendlyCheckBox"
         android:layout_alignRight="@+id/finalBillTextView"
         android:layout_marginRight="26dp"
-        android:text="@string/intro_specials_text_view" />
+        android:text="@string/intro_specials_text_view"
+        android:checked="false" />
 
     <CheckBox
         android:id="@+id/opinionCheckBox"
@@ -132,7 +145,8 @@
         android:layout_alignBaseline="@+id/specialsCheckBox"
         android:layout_alignBottom="@+id/specialsCheckBox"
         android:layout_toRightOf="@+id/specialsCheckBox"
-        android:text="@string/intro_opinion_text_view" />
+        android:text="@string/intro_opinion_text_view"
+        android:checked="false" />
 
     <RadioGroup
         android:id="@+id/availableRadioGroup"
@@ -155,13 +169,15 @@
             android:id="@+id/availableOKRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/available_ok_radiobutton" />
+            android:text="@string/available_ok_radiobutton"
+            android:checked="false" />
 
         <RadioButton
             android:id="@+id/availableGoodRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/available_good_radiobutton" />
+            android:text="@string/available_good_radiobutton"
+            android:checked="false" />
     </RadioGroup>
 
     <TextView

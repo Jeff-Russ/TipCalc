@@ -34,36 +34,38 @@ public class TipCalc extends Activity {
     private double tipAmount;       // Tip amount
     private double finalBill;       // Bill plus Tip
 
-    EditText billBeforeTipET;
-    EditText tipAmountET;
-    EditText finalBillET;
-
-    // NEW PART ---------------
-
     private int[] checklistValues = new int[12]; // Sum of all radio buttons and check boxes
-
-    CheckBox friendlyCheckBox;          // Declare CheckBoxes
-    CheckBox specialsCheckBox;
-    CheckBox opinionCheckBox;
-
-    RadioGroup availableRadioGroup;     // Declare RadioButtons
-    RadioButton availableBadRadio;
-    RadioButton availableOKRadio;
-    RadioButton availableGoodRadio;
-
-    Spinner problemsSpinner;            // Declare Spinner (Drop Down Box)
-
-    Button startChronometerButton;      // Declare Buttons
-    Button pauseChronometerButton;
-    Button resetChronometerButton;
-
-    Chronometer timeWaitingChronometer; // Declare Chronometer
 
     long secondsYouWaited = 0;          // The number of seconds you spent waiting for the waitress
 
-    TextView timeWaitingTextView;       // TextView for the chronometer
+    // DECLARE UI OBJ  ---------------
 
-    // END OF NEW PART ---------------
+    EditText billBeforeTipET;       // R.id.billEditText
+    EditText tipAmountET;           // R.id.tipEditText
+    EditText finalBillET;           // R.id.finalBillEditText
+
+    private SeekBar tipSeekBar;     // R.id.changeTipSeekBar
+
+    CheckBox friendlyCheckBox;      // R.id.friendlyCheckBox
+    CheckBox specialsCheckBox;      // R.id.specialsCheckBox
+    CheckBox opinionCheckBox;       // R.id.opinionCheckBox
+
+    RadioGroup availableRadioGroup; // R.id.availableRadioGroup
+
+    RadioButton availableBadRadio;  // R.id.availableBadRadioGroup
+    RadioButton availableOKRadio;   // R.id.availableOKGroup
+    RadioButton availableGoodRadio; // R.id.availableGoodRadioGroup
+
+    Spinner problemsSpinner;        // R.id.problemsSpinner
+
+    Button startChronometerButton;  // R.id.startChronometerButton
+    Button pauseChronometerButton;  // R.id.pauseChronometerButton
+    Button resetChronometerButton;  // R.id.resetChronometerButton
+
+    TextView timeWaitingTextView;       // TextView for the chronometer
+    Chronometer timeWaitingChronometer; // R.id.timeWaitingChronometer
+
+    // END OF DECLARE UI OBJ ---------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,100 +73,76 @@ public class TipCalc extends Activity {
         setContentView(R.layout.activity_tip_calc); // Inflate the GUI
 
         // Check if app just started, or if it is being restored
-        if (savedInstanceState == null) {
-            // Just started
+        if (savedInstanceState == null) {   // Just started
             billBeforeTip = 0.0;
             tipAmount = .15;
             finalBill = 0.0;
-
-        } else {
-            // App is being restored
+        } else {                 // App is being restored
             billBeforeTip = savedInstanceState.getDouble(BILL_WITHOUT_TIP);
             tipAmount = savedInstanceState.getDouble(CURRENT_TIP);
             finalBill = savedInstanceState.getDouble(TOTAL_BILL);
         }
-        // Initialize the EditTexts
+
+        // INITIALIZE EVERYTHING ---------------
+
         billBeforeTipET = (EditText) findViewById(R.id.billEditText);   // Users bill before tip
         tipAmountET = (EditText) findViewById(R.id.tipEditText);        // Tip amount
         finalBillET = (EditText) findViewById(R.id.finalBillEditText);  // Bill plus tip
 
-        // Initialize the SeekBar and add a ChangeListener
         tipSeekBar = (SeekBar) findViewById(R.id.changeTipSeekBar);
 
-        tipSeekBar.setOnSeekBarChangeListener(tipSeekBarListener);
-
-        // ---------------------------
-        // Add change listener for when the bill before tip is changed
-        billBeforeTipET.addTextChangedListener(billBeforeTipListener);
-
-        // NEW PART ---------------
-
-        // Initialize CheckBoxs
         friendlyCheckBox = (CheckBox) findViewById(R.id.friendlyCheckBox);
         specialsCheckBox = (CheckBox) findViewById(R.id.specialsCheckBox);
         opinionCheckBox = (CheckBox) findViewById(R.id.opinionCheckBox);
 
-        setUpIntroCheckBoxes(); // Add change listeners to check boxes
+        availableRadioGroup = (RadioGroup) findViewById(R.id.availableRadioGroup);
 
-        // Initialize RadioButtons
         availableBadRadio = (RadioButton) findViewById(R.id.availableBadRadio);
         availableOKRadio = (RadioButton) findViewById(R.id.availableOKRadio);
         availableGoodRadio = (RadioButton) findViewById(R.id.availableGoodRadio);
 
-        // Initialize RadioGroups
-        availableRadioGroup = (RadioGroup) findViewById(R.id.availableRadioGroup);
+        problemsSpinner = (Spinner) findViewById(R.id.problemsSpinner);
+        problemsSpinner.setPrompt("Problem Solving");       // adds text label
 
-        addChangeListenerToRadios();    // Add ChangeListener To Radio buttons
-
-        problemsSpinner = (Spinner) findViewById(R.id.problemsSpinner); // Initialize the Spinner
-
-        problemsSpinner.setPrompt("Problem Solving");
-
-        addItemSelectedListenerToSpinner(); // Add ItemSelectedListener To Spinner
-
-        // Initialize Buttons
         startChronometerButton = (Button) findViewById(R.id.startChronometerButton);
         pauseChronometerButton = (Button) findViewById(R.id.pauseChronometerButton);
         resetChronometerButton = (Button) findViewById(R.id.resetChronometerButton);
 
-        setButtonOnClickListeners();    // Add setOnClickListeners for buttons
-
-        // Initialize Chronometer
+        timeWaitingTextView = (TextView) findViewById(R.id.timeWaitingTextView);
         timeWaitingChronometer = (Chronometer) findViewById(R.id.timeWaitingChronometer);
 
-        // TextView for Chronometer
-        timeWaitingTextView = (TextView) findViewById(R.id.timeWaitingTextView);
+
+        // ADD LISTENERS ---------------
+
+        billBeforeTipET.addTextChangedListener(billBeforeTipListener); // Bill has changed
+        tipSeekBar.setOnSeekBarChangeListener(tipSeekBarListener);     // user adjusted bar
+        setUpIntroCheckBoxes();             // Add change listeners to check boxes in method
+        addChangeListenerToRadios();        // Add ChangeListener To Radio buttons in method
+        addItemSelectedListenerToSpinner(); // Add ItemSelectedListener To Spinner in method
+        setButtonOnClickListeners();        // Add setOnClickListeners for buttons in method
     }
-       // END OF NEW PART ---------------
+       // SET UP LISTENERS ---------------
 
     // Called when the bill before tip amount is changed
     private TextWatcher billBeforeTipListener = new TextWatcher(){
         @Override
-        public void afterTextChanged(Editable arg0) { /* TODO Auto-generated method stub*/ }
-
-        @Override
-        public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            /* TODO Auto-generated method stub*/ }
-
-        @Override
         public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             try{ // Change the billBeforeTip to the new input
                 billBeforeTip = Double.parseDouble(arg0.toString());
-            } catch(NumberFormatException e){
+            }catch(NumberFormatException e){
                 billBeforeTip = 0.0;
             }
             updateTipAndFinalBill();
         }
+        @Override public void afterTextChanged(Editable arg0) { /* TODO Auto-gen stub*/ }
+        @Override public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {/* TODO Auto-gen stub*/ }
     };
 
-    // Update the tip amount and add tip to bill to find the final bill amount
+    // THE METHOD to update the tip amount and add tip to bill to find the final bill amount
     private void updateTipAndFinalBill(){
-        // Get tip amount
-        double tipAmount = Double.parseDouble(tipAmountET.getText().toString());
-
+        double tipAmount = Double.parseDouble(tipAmountET.getText().toString()); // Get tip amount
         // The bill before tip amount was set in billBeforeTipListener Get the bill plus the tip
         double finalBill = billBeforeTip + (billBeforeTip * tipAmount);
-
         // Set the total bill amount including the tip Convert into a 2 decimal place String
         finalBillET.setText(String.format("%.02f", finalBill));
     }
@@ -179,41 +157,26 @@ public class TipCalc extends Activity {
         outState.putDouble(BILL_WITHOUT_TIP, billBeforeTip);
     }
 
-    private SeekBar tipSeekBar; // SeekBar used to make a custom tip
-
     private OnSeekBarChangeListener tipSeekBarListener = new OnSeekBarChangeListener(){
         @Override
         public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-
-            // Get the value set on the SeekBar
-            tipAmount = (tipSeekBar.getProgress()) * .01;
-            // Set tipAmountET with the value from the SeekBar
-            tipAmountET.setText(String.format("%.02f", tipAmount));
-            // Update all the other EditTexts
-            updateTipAndFinalBill();
+            tipAmount = (tipSeekBar.getProgress()) * .01;   // Get the value set on the SeekBar
+            tipAmountET.setText(String.format("%.02f", tipAmount)); // tipAmountET from SeekBar val
+            updateTipAndFinalBill(); // Update all the other EditTexts
         }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar arg0) { /* TODO Auto-generated method stub*/ }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar arg0) { /* TODO Auto-generated method stub*/ }
+        @Override public void onStartTrackingTouch(SeekBar arg0) { /* TODO Auto-generated method stub*/ }
+        @Override public void onStopTrackingTouch(SeekBar arg0) { /* TODO Auto-generated method stub*/ }
     };
 
     // ---- NEW STUFF ----------
 
-    private void setUpIntroCheckBoxes(){
-
-        // Add ChangeListener to the friendlyCheckBox
+    private void setUpIntroCheckBoxes(){    // Add ChangeListener to the friendlyCheckBox
         friendlyCheckBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener(){
-
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-
                 // Use java ternary operator to set the right values for
                 // each item on the waitress check box checklist
                 checklistValues[0] = (friendlyCheckBox.isChecked())?4:0;
-
                 setTipFromWaitressChecklist();  // Calculate tip using the waitress checklist options
                 updateTipAndFinalBill();        // Update all the other EditTexts
             }
@@ -226,7 +189,6 @@ public class TipCalc extends Activity {
                 // Use java ternary operator to set the right values for
                 // each item on the waitress check box checklist
                 checklistValues[1] = (specialsCheckBox.isChecked())?1:0;
-
                 setTipFromWaitressChecklist();  // Calculate tip using the waitress checklist options
                 updateTipAndFinalBill();        // Update all the other EditTexts
             }
@@ -236,11 +198,9 @@ public class TipCalc extends Activity {
         opinionCheckBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-
                 // Use java ternary operator to set the right values for
                 // each item on the waitress check box checklist
                 checklistValues[2] = (opinionCheckBox.isChecked())?2:0;
-
                 setTipFromWaitressChecklist();  // Calculate tip using the waitress checklist options
                 updateTipAndFinalBill();        // Update all the other EditTexts
             }
@@ -267,7 +227,6 @@ public class TipCalc extends Activity {
                 checklistValues[4] = (availableOKRadio.isChecked())?2:0;
                 checklistValues[5] = (availableGoodRadio.isChecked())?4:0;
                 // Calculate tip using the waitress checklist options
-
                 setTipFromWaitressChecklist();  // Calculate tip using the waitress checklist options
                 updateTipAndFinalBill();        // Update all the other EditTexts
             }
@@ -283,7 +242,6 @@ public class TipCalc extends Activity {
                 checklistValues[6] = (String.valueOf(problemsSpinner.getSelectedItem()).equals("Bad"))?-1:0;
                 checklistValues[7] = (String.valueOf(problemsSpinner.getSelectedItem()).equals("OK"))?3:0;
                 checklistValues[8] = (String.valueOf(problemsSpinner.getSelectedItem()).equals("Good"))?6:0;
-
                 setTipFromWaitressChecklist();  // Calculate tip using the waitress checklist options
                 updateTipAndFinalBill();        // Update all the other EditTexts
             }
@@ -342,7 +300,6 @@ public class TipCalc extends Activity {
         // If spent < 10 sec, add 2 to the tip. If spent > 10 sec, subtract 2
         checklistValues[9] = (secondsYouWaited > 10)?-2:2;
         // Calculate tip using the waitress checklist options
-
         setTipFromWaitressChecklist();  // Calculate tip using the waitress checklist options
         updateTipAndFinalBill();        // Update all the other EditTexts
     }
